@@ -1,0 +1,90 @@
+{% extends 'Event/base.html' %} {% block content %}
+
+<style>
+  .btn-success {
+    border-radius: 0.7rem;
+
+    height: 3rem;
+    font-weight: 900;
+    margin: 2rem 1rem;
+  }
+
+  .fixed-bottom {
+    position: absolute;
+  }
+  .action {
+    text-decoration: none;
+  }
+</style>
+<br />
+{% if messages %}
+<div class="messages">
+  {% for message in messages %} {% if message.tags == 'error' %}
+  <div class="alert alert-danger">{{ message }}</div>
+  {% elif message.tags == 'success' %}
+  <div class="alert alert-success">{{ message }}</div>
+  {% else %}
+  <div class="alert alert-info">{{ message }}</div>
+  {% endif %} {% endfor %}
+</div>
+{% endif %}
+<a class="add-evt" href="{% url 'Add' %}">
+  <button type="button" class="btn btn-success">Ajouter Evenement</button>
+</a>
+<a class="logout" href="{% url 'logout' %}">
+  <button type="button" class="btn btn-danger">Logout</button>
+</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>State</th>
+      <th>Image</th>
+      <th>nbe_participant</th>
+      <th>event_date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in e %}
+    <tr>
+      <td>{{ event.title }}</td>
+      <td>{{ event.description }}</td>
+      <td>{{ event.category }}</td>
+      {% if not event.state %}
+      <td><span class="badge badge-danger">Annulé</span></td>
+      {% else %}
+      <td><span class="badge badge-success">En cours</span></td>
+
+      {% endif %}
+      <td>{{ event.image }}</td>
+      <td>{{ event.nbe_participant }}</td>
+      <td>{{ event.event_date }}</td>
+      <td>
+        <div class="actions">
+          <a class="action" href="{% url 'D' event.title %}">
+            <i data-feather="info"></i>
+          </a>
+          <a class="action" href="{% url 'update' event.id %}">
+            <i data-feather="edit"></i>
+          </a>
+          <a class="action" href="{% url 'supprimer' event.id %}">
+            <i data-feather="trash-2"></i>
+          </a>
+          <a class="action" href="{% url 'Participate' evt_id=event.id %}">
+            Participate
+          </a>
+          <a class="action" href="{% url 'CancelParticipation' id=event.id %}">
+            Cancel
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

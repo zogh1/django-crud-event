@@ -1,0 +1,26 @@
+{% extends 'Event/base.html' %} {% block content %}
+
+<style>
+    .fixed-bottom {
+    position: absolute;
+  }
+  form {
+    margin: 20% 20% 20% auto;
+  }
+</style>
+<form method="post" action="">
+  <h2 class="title"> Authentification page</h2>
+  {% for message in messages %}
+  <div class="alert alert-success" role="alert">
+    {{message}}
+  </div>
+  {% endfor %}
+  {% csrf_token %}
+  {{form.username}}
+   {{form.password}}
+   <br>
+  <input type="submit" value="Login" />
+
+</form>
+</form>
+{% endblock %}
